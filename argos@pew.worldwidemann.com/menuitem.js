@@ -20,11 +20,8 @@ const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const ArgosLineView = Extension.imports.lineview.ArgosLineView;
 
 // Menu entry representing a docker container
-const ArgosMenuItem = GObject.registerClass(
-  {
-      GTypeName: 'ArgosMenuItem'
-  },
-  class extends PopupMenu.PopupBaseMenuItem {
+var ArgosMenuItem = GObject.registerClass(
+  class ArgosMenuItem extends PopupMenu.PopupBaseMenuItem {
     _init(button, line, alternateLine) {
       let hasAction = line.hasAction || (typeof alternateLine !== "undefined" && alternateLine.hasAction);
 

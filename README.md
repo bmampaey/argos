@@ -1,5 +1,10 @@
 <h1 align="center">Argos</h1>
 <h3 align="center">Create GNOME Shell extensions in seconds</h3>
+<h3 align="center">Fixed for GNOME 42</h3>
+<br>
+
+This branch of this fork fixes the issue when using GNOME 42 described [here](https://github.com/p-e-w/argos/issues/135).
+
 <br>
 
 ![Screencast](https://cloud.githubusercontent.com/assets/2702526/21953508/7463004c-da5f-11e6-99e1-b8db1167c071.gif)
