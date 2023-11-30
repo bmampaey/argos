@@ -9,20 +9,20 @@
  * (https://gnu.org/licenses/gpl.html)
  */
 
-const Lang = imports.lang;
-const GObject = imports.gi.GObject;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
+import GObject from 'gi://GObject';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+
+import {ArgosLineView} from './lineview.js';
+import {ArgosMenuItem} from './menuitem.js';
+import Utilities from './utilities.js';
+
 const Mainloop = imports.mainloop;
+const Lang = imports.lang;
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const ArgosLineView = Extension.imports.lineview.ArgosLineView;
-const ArgosMenuItem = Extension.imports.menuitem.ArgosMenuItem;
-const Utilities = Extension.imports.utilities;
-
-var ArgosButton = GObject.registerClass(
+export var ArgosButton = GObject.registerClass(
 class ArgosButton extends PanelMenu.Button {
 
   _init(file, settings) {

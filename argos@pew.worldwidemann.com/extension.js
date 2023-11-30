@@ -9,14 +9,17 @@
  * (https://gnu.org/licenses/gpl.html)
  */
 
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const Main = imports.ui.main;
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {ArgosButton} from './button.js';
+import Utilities from './utilities.js';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
+
 const Mainloop = imports.mainloop;
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const ArgosButton = Extension.imports.button.ArgosButton;
-const Utilities = Extension.imports.utilities;
+
+
 
 let directory;
 let directoryMonitor;
@@ -24,7 +27,10 @@ let directoryChangedId;
 let debounceTimeout = null;
 let buttons = [];
 
-function init() {
+export default class MaximizeToEmptyWorkspace extends Extension {
+
+constructor(...args) {
+  super(...args);
   let directoryPath = GLib.build_filenamev([GLib.get_user_config_dir(), "argos"]);
 
   directory = Gio.File.new_for_path(directoryPath);
@@ -58,34 +64,34 @@ function init() {
   directoryMonitor = directory.monitor_directory(monitorFlags, null);
 }
 
-function enable() {
-  addButtons();
+enable() {
+  this.addButtons();
 
   directoryChangedId = directoryMonitor.connect("changed", function(monitor, file, otherFile, eventType) {
-    removeButtons();
+    this.removeButtons();
 
     // Some high-level file operations trigger multiple "changed" events in rapid succession.
     // Debouncing groups them together to avoid unnecessary updates.
     if (debounceTimeout === null) {
       debounceTimeout = Mainloop.timeout_add(100, function() {
         debounceTimeout = null;
-        addButtons();
+        this.addButtons();
         return false;
       });
     }
   });
 }
 
-function disable() {
+disable() {
   directoryMonitor.disconnect(directoryChangedId);
 
   if (debounceTimeout !== null)
     Mainloop.source_remove(debounceTimeout);
 
-  removeButtons();
+  this.removeButtons();
 }
 
-function addButtons() {
+addButtons() {
   let files = [];
 
   let enumerator = directory.enumerate_children(Gio.FILE_ATTRIBUTE_STANDARD_NAME, Gio.FileQueryInfoFlags.NONE, null);
@@ -114,9 +120,10 @@ function addButtons() {
   }
 }
 
-function removeButtons() {
+removeButtons() {
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].destroy();
   }
   buttons = [];
+}
 }

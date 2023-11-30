@@ -9,18 +9,18 @@
  * (https://gnu.org/licenses/gpl.html)
  */
 
+
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import {ArgosLineView} from './lineview.js';
 const Lang = imports.lang;
 const GObject = imports.gi.GObject;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const PopupMenu = imports.ui.popupMenu;
-const AltSwitcher = imports.ui.status.system.AltSwitcher;
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import {Indicator as AltSwitcher} from 'resource:///org/gnome/shell/ui/status/system.js';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const ArgosLineView = Extension.imports.lineview.ArgosLineView;
 
 // Menu entry representing a docker container
-var ArgosMenuItem = GObject.registerClass(
+export var ArgosMenuItem = GObject.registerClass(
   class ArgosMenuItem extends PopupMenu.PopupBaseMenuItem {
     _init(button, line, alternateLine) {
       let hasAction = line.hasAction || (typeof alternateLine !== "undefined" && alternateLine.hasAction);

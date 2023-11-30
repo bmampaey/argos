@@ -9,18 +9,17 @@
  * (https://gnu.org/licenses/gpl.html)
  */
 
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const EMOJI = Extension.imports.emoji.EMOJI;
+import {EMOJI} from './emoji.js';
+const ByteArray = imports.byteArray;
 
 const BOXES = {
   l: "left",
   c: "center",
   r: "right"
 };
-
 function parseFilename(filename) {
   let settings = {
     updateOnOpen: false,
@@ -279,8 +278,9 @@ function readStream(stream, callback) {
     if (line === null) {
       callback(null);
     } else {
-      callback(imports.byteArray.toString(line) + "\n");
+      callback(ByteArray.toString(line) + "\n");
       readStream(source, callback);
     }
   });
 }
+export default {parseFilename, parseLine, spawnWithCallback};
